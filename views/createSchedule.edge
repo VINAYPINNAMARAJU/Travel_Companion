@@ -1,0 +1,127 @@
+@layout('layouts.app')
+
+@section('content')
+<script src="/vendor/jquery/jquery.min.js"></script>
+
+<!-- Page Header -->
+<header class="masthead" style="background-image: url('/img/nec10.gif')">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="page-heading">
+                <h3>ENTER THE TRIP DETAILS</h3>
+                </div>
+            </div>
+        </div>  
+    </div>
+</header>
+
+<div>
+    <div class="">
+        <div class="">
+            <form action="/posts/store" method="POST" encType="multipart/form-data">
+                <center>
+                   <h3>START BOOKING</h3>
+                </center>
+                <br>
+                <div class="container">
+                    <div class="limiter">
+                        <div class="container-table100">
+                            <div class="wrap-table100">
+                                <div class="table100">
+                                    <table id="data_table" class="table table-hover">
+                                        <tbody>
+                                            <thead>
+                                                <tr class="table100-head">
+                                                    <th class="column1">SOURCE(PICK-UP)</th>
+                                                    <th class="column2">DESTINATION(DROP)</th>
+                                                   
+                                                    <th class="column5">Options</th>
+                                                </tr>
+                                            </thead>
+                                            <tr>
+                                                <td><select id="new_number">
+                                                        <option selected>--NA--</option>
+                                                        <option selected>Location A</option>
+                                                        <option selected>Location B</option>
+                                                        <option selected>Location C</option>
+                                                        <option selected>Location D</option>
+                                                        <option selected>Location E</option>
+
+                                                    </select></td>
+                                                <td><select id="new_type"> 
+                                                        <option selected>--NA--</option>
+                                                        <option selected>Location F</option>
+                                                        <option selected>Location G</option>
+                                                        <option selected>Location H</option>
+                                                        <option selected>Location I</option>
+                                                        <option selected>Location J</option>
+                                                      
+                                                    </select></td>
+                                               
+                                                <td><input type="button" class="btn-info add" onclick="add_row();" value="CHECK TOTAL FARE"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </tbody>
+                <input hidden type="text" name="department" value="{{users.department}}">
+                <br>
+                <center>
+                    <div class="submit-button" href="#">
+                        <input type="submit" value="SUBMIT"><br>
+                    </div>
+                </center>
+                <div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function delete_row(no) {
+        document.getElementById("data_table").deleteRow(no);
+    }
+
+    function add_row() {
+        let new_num = document.getElementById("new_number").value;
+        let new_type = document.getElementById("new_type").value;
+       
+
+        //"Curve save the country": insert the newly added line into the penultimate line
+
+        // Avoid two acquisitions
+        let table = document.getElementById("data_table");
+        let totalLength = table.rows.length - 1;
+        //insert
+
+        //Note: totalLength in "+totalLength+" should be a directly given value. The value of the expression will not be evaluated here. Only the value given directly will be the value of the Number class.
+      let new_row = table.insertRow(totalLength).outerHTML = "<tr id='row" + totalLength + "'><td><select id='number_row" + totalLength + "' name='number_row" + "'><option selected>" + new_num + "</option> </select></td><td><select id='type_row" + totalLength + "' name='type_row"  + "'><option>" + new_type + "</option></select></td><td><select id='state_row" + totalLength + "' name='state_row" + "'><option selected>" + totalLength + ")'></td></tr>";
+
+        document.getElementById("new_number").value = "";
+        document.getElementById("new_type").value = ""; 
+      
+
+
+    }
+</script>
+
+@endsection
+
+
+
+@section('styles')
+<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.css" rel="stylesheet">
+@endsection
+
+@section('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.js"></script>
+<script>
+    $('#content').summernote();
+</script>
+@endsection 

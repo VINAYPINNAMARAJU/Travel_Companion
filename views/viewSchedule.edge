@@ -1,0 +1,133 @@
+@layout('layouts.app')
+
+@section('content')
+
+<script src="/vendor/jquery/jquery.min.js"></script>
+
+
+<!-- Page Header -->
+<header class="masthead" style="background-image: url('/img/home-bg.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="post-heading">
+                    <h1>{{ post.createdFor.toDateString() }}</h1>
+                    <h2 class="subheading">{{ users.department}}</h2>
+                    <span class="meta">Posted by
+                        <a href="#">{{ post.author.username }}</a>
+                        on {{ post.createdAt.toDateString() }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<body onload="init()">
+
+    <!-- Post Content -->
+    <div id="printableArea">
+        <form method="POST" encType="multipart/form-data">
+            <center>
+                <h3>Department: {{users.department}}</h3>
+                <h3>Date: {{post.createdFor.toDateString()}}</h3>
+            </center>
+
+            <br>
+            <br>
+
+            <div class='container'>
+                <div class="limiter">
+                    <div class="container-table100">
+                        <div class="wrap-table100">
+                            <div class="table100">
+                                <table class="table table-hover" id="table">
+                                    <thead>
+                                        <tr class="table100-head">
+                                            <th class="column1">Department</th>
+                                            <th class="column2">Doctor Name</th>
+                                            <th class="column3">In Time</th>
+                                            <th class="column4">Out Time</th>
+
+                                        </tr>
+                                    </thead>
+                                    @each(row in post.rows)
+                                    <tr>
+                                        <td>
+
+                                            <h3>{{row.number}}</h3>
+                                        </td>
+                                        <td>
+
+                                            <h3>{{row.type_}}</h3>
+
+                                        </td>
+                                        <td>
+
+                                            <h3>{{row.state}}</h3>
+                                        </td>
+                                        <td>
+
+                                            <h3>{{row.outTime}}</h3>
+                                        </td>
+
+
+                                    </tr>
+                                    @endeach
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                </tbody>
+                </table>
+                <br>
+
+        </form>
+
+
+    </div>
+    </div>
+    <center>
+        <form action="/delete/{{post._id}}">
+            <div class="submit-button">
+                <input type="submit" value="Delete" id="ibtn" ><br>
+            </div>
+        </form>
+        <br>
+
+        <input type="button" onclick="printDiv('printableArea')" value="print" />
+    </center>
+    <hr>
+
+</body>
+
+<script>
+        function formatDate() {
+            var d = new Date(),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+    
+            if (month.length < 2) month = '0' + month;
+            if (day.length < 2) day = '0' + day;
+            var date1 = [year, month, day].join('-')
+            var date2 = date1
+            return date2;
+        }
+        function init() {
+            var d = formatDate();
+            if ("{{post.createdFor.toLocaleDateString()}}" < d) {
+                document.getElementById("ibtn").style.display = "none";
+            }
+            else{
+                console.log("sorry")
+            }
+           
+        }
+    </script>
+
+
+
+@endsection

@@ -1,0 +1,147 @@
+@layout('layouts.app')
+
+@section('content')
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"> </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+
+<!-- Page Header -->
+<header class="masthead" style="background-image: url('img/nec8.jpg')">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <div class="site-heading">
+           <h2>YOUR BEST TRAVEL COMPANION</h2>
+          <h3></h3>
+          @if(auth)
+          <span class="subheading">Account of ABC</span>
+          @endif
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Main Content -->
+@if(auth)
+@if(!Admin)
+<div class='container'>
+  <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+    <thead>
+      <th>DATE</th>
+      <th>SOURCE(FROM)</th>
+      <th>DESTINATION(TO)</th>
+      <th>PRICE(BILL)</th>
+    </thead>
+    <tbody>
+
+      @each(post in posts)
+      <tr>
+        <td>15-02-2019</td>
+        <td>Location A</td>
+        <td>Location B</td>
+        <td>200/-</td>
+        <td><a href="/"><button>Download statement</button></a></td>
+      </tr>
+      <tr>
+        <td>16-02-2019</td>
+        <td>Location C</td>
+        <td>Location D</td>
+        <td>150/-</td>
+        <td><a href="/"><button>Download statement</button></a></td>
+      </tr>
+      @endeach
+
+    </tbody>
+  </table>
+</div>
+@endif
+@endif
+@if(!auth)
+<center>
+   <h1>
+   LOGIN TO SEE YOUR PREVIOUS BOOKING RECORDS</h1>
+</center><br>
+<div class='container'>
+  <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+    <thead>
+      <th>DATE</th>
+      <th>SOURCE(FROM)</th>
+      <th>DESTINATION(TO)</th>
+      <th>PRICE(BILL)</th>
+      
+    </thead>
+    <tbody>
+
+      @each(todaysPost in todaysPosts)
+      <tr>
+        <td>{{todaysPost.createdFor.toDateString()}}</td>
+        <td>{{todaysPost.department}}</td>
+        <td>{{ todaysPost.author.username }}</td>
+        <td>{{ todaysPost.createdAt.toDateString() }}</td>
+        <td><a href="/todaysPost/{{ todaysPost._id }}"><button>View</button></a></td>
+      </tr>
+      @endeach
+    </tbody>
+  </table>
+</div>
+<br><br>
+<div class="container">
+  <canvas id="myChart"></canvas>
+</div>
+
+@endif
+@if(Admin)
+<div class='container'>
+  <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+    <thead>
+      <th>Date</th>
+      <th>Department</th>
+      <th>Posted By</th>
+      <th>Posted on</th>
+      <th>View Time Table</th>
+    </thead>
+    <tbody>
+
+      @each(allpost in allposts)
+      <tr>
+        <td>{{allpost.createdFor.toDateString()}}</td>
+        <td>{{allpost.department}}</td>
+        <td>{{ allpost.author.username }}</td>
+        <td>{{ allpost.createdAt.toDateString() }}</td>
+        <td><a href="/todaysPost/{{ allpost._id }}"><button>View</button></a></td>
+      </tr>
+      @endeach
+    </tbody>
+  </table>
+</div>
+@endif
+<script>
+  $(document).ready(function () {
+    //Only needed for the filename of export files.
+    //Normally set in the title tag of your page.
+    // DataTable initialisation
+    $('#example').DataTable(
+      {
+        "dom": '<"dt-buttons"Bf><"clear">lirtp',
+        "paging": true,
+        "autoWidth": true,
+        "buttons": [
+          'colvis',
+          'copyHtml5',
+          'csvHtml5',
+          'excelHtml5',
+          'pdfHtml5',
+          'print'
+        ]
+      }
+    );
+  });
+</script>
+
+
+
+@endsection

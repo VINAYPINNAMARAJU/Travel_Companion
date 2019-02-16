@@ -1,0 +1,116 @@
+@layout('layouts.app')
+
+@section('content')
+<script src="/vendor/jquery/jquery.min.js"></script>
+
+<style>
+.social-exp {
+    width: auto;
+    padding: 0 5px 10px;
+    float: left
+}
+ 
+#icon-exp {
+   display: none;
+}
+ 
+.social-exp.hover #icon-exp  {
+   display: block !important;
+   position: absolute;
+   z-index:1;
+}
+ 
+iframe {
+  width: 300px;
+  background: #fff;
+  border: 1px solid #000;
+}
+
+</style>
+
+<script src="/vendor/jquery/jquery.min.js"></script>
+
+<header class="masthead" style="background-image: url('/img/contact-bg.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="page-heading">
+                    <center>
+                        <h1>{{post.department}}</h1>
+                    </center>
+                    <center>Date:{{post.createdFor.toDateString()}}</center><br>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<body>
+
+    <div class='container'>
+        <div class="limiter">
+            <div class="container-table100">
+                <div class="wrap-table100">
+                    <div class="table100">
+                        <table class="table table-hover" id="table">
+                            <thead>
+                                <tr class="table100-head">
+                                    <th class="column1">Department</th>
+                                    <th class="column2">Doctor Name</th>
+                                    <th class="column3">In Time</th>
+                                    <th class="column4">Out Time</th>
+
+                                </tr>
+                            </thead>
+                            @each(row in post.rows)
+                            <tr>
+                                <td>
+
+                                    <h3>{{row.number}}</h3>
+                                </td>
+                                <td>
+                                    <div class="social-exp">
+
+
+
+                                        <a href="#" class="tTip">
+                                            <div id="icon-exp">
+                                                <iframe src="/docDetails/{{row.type_}}" width="400" height="300" frameborder="0"></iframe>
+                                            </div>
+                                            <h3>{{row.type_}}</h3>
+                                        </a>
+
+                                    </div>
+                                </td>
+                                <td>
+
+                                    <h3>{{row.state}}</h3>
+                                </td>
+                                <td>
+
+                                    <h3>{{row.outTime}}</h3>
+                                </td>
+
+
+                            </tr>
+                            @endeach
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        </tbody>
+        </table>
+</body>
+<script>
+$('.social-exp, .social-exp iframe').hover(function(){
+    $(this).addClass('hover');
+});
+
+$('.social-exp, .social-exp iframe').mouseleave(function(){
+    $(this).removeClass('hover');
+});
+</script>
+@endsection
